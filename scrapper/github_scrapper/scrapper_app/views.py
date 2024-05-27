@@ -45,7 +45,7 @@ def register(request):
                 return redirect('register')
             else:
                 user = User.objects.create_user(username=username, email=email, password=password)
-                user.save();
+                user.save()
                 return redirect('login')
         else:
             messages.info(request, 'Password Not Matching')
@@ -77,6 +77,8 @@ def logout(request):
     return redirect('login')
 
 def images(request):
-    username = request.user
-    git_hub = Github.objects.filter(username=username)
-    return render(request, 'images.html', {'git_hub':git_hub})
+    username = request.user.username
+    git_hub = Github.objects.filter(username=username).order_by('githubuser')
+    return render(request, 'images.html', {'git_hub': git_hub})
+
+
